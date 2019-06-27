@@ -55,9 +55,18 @@ class Server : UdpServer
         string incoming = Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
         Debug.Log(incoming);
         // Echo the message back to the sender
-        string val = ratio.SensorValue.ToString();
-        Debug.Log(val);
-        SendAsync(endpoint, val);
+        try
+        {
+            string val = ratio.SensorValue.ToString();
+            Debug.Log(val);
+            SendAsync(endpoint, val);
+        } catch (PhidgetException pffexception)
+        {
+            Debug.Log("Too much");
+        } finally
+        {
+            SendAsync(endpoint, "9.001");
+        }
     }
 
     protected override void OnSent(EndPoint endpoint, long sent)
