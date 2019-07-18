@@ -84,8 +84,13 @@ public class SensorClient : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(ratio.SensorValue);
-        client.Send(ratio.SensorValue.ToString());
+        double sensorVal = 0;
+        sensorVal = ratio.SensorValue;
+        if(sensorVal > 0.700)
+        {
+            Debug.Log(ratio.SensorValue);
+        }
+        client.Send(sensorVal.ToString());
     }
 
     private void OnApplicationQuit()
