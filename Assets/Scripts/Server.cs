@@ -53,12 +53,19 @@ class Server : UdpServer
     protected override void OnReceived(EndPoint endpoint, byte[] buffer, long offset, long size)
     {
         string incoming = Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
-        Debug.Log(incoming);
+        if(!incoming.Equals("ping"))
+        {
+            Debug.Log(incoming);
+        }
         // Echo the message back to the sender
         try
         {
-            string val = ratio.SensorValue.ToString();
-            Debug.Log(val);
+            double numVal = ratio.SensorValue;
+            string val = numVal.ToString();
+            if (numVal > 0.7)
+            {
+                Debug.Log(val);
+            }
             SendAsync(endpoint, val);
         } catch (PhidgetException pffexception)
         {
